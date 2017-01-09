@@ -13,6 +13,7 @@ import zhihu_page_analyzer as zh_pganlz
 import zhihu_index_and_task_dispatch as zh_iatd
 from zhihu_settings import *
 from zhihu_common import *
+import zhihu_img_index
 
 _stop = False
 _stopped = False
@@ -27,7 +28,7 @@ ZH_IMGTYPE_IN_ARTICLE = 5
 ZH_IMGTYPE_IN_QUESTION = 6
 
 def on_img_got(webp, toi, tid):
-	print webp, toi, tid
+	zhihu_img_index.use_lucene(webp, toi, tid)
 
 def index_images_until_stop(session, handler, lbound):
 	global _stop, _stopped, _vm
@@ -101,7 +102,7 @@ def index_images_until_stop(session, handler, lbound):
 				logger.write(' ({0}, +{1})\n'.format(doctype, imgsgot))
 				if _stop:
 					break
-				time.sleep(3)
+				time.sleep(1)
 			except Exception as e:
 				logger.write('\n## ERROR ################################\n')
 				logger.write(traceback.format_exc())
